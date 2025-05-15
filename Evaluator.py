@@ -17,8 +17,8 @@ from MyMath import datawithguide, datawithoutguide, extractEvents, extractEventA
 arousalWithGuide = extractEventArousal(extractEvents(datawithguide))
 arousalWithoutGuide = extractEventArousal(extractEvents(datawithoutguide))
 
-valanceWithGuide = extractEventValance(extractEvents(datawithguide))
-valanceWithoutGuide = extractEventValance(extractEvents(datawithoutguide))
+valenceWithGuide = extractEventValance(extractEvents(datawithguide))
+valenceWithoutGuide = extractEventValance(extractEvents(datawithoutguide))
 
 decisionsWithGuide = extractEventDecisions(extractEvents(datawithguide))
 decisionsWithoutGuide = extractEventDecisions(extractEvents(datawithoutguide))
@@ -165,7 +165,7 @@ def prevKnowledgeSupport(decisionsWithGuide, decisionsWithoutGuide, knowledgeWit
     print(f"P-value: {p_value}")
     """
 
-def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGuide, valanceWithoutGuide, envPrioWithGuide, envPrioWithoutGuide):
+def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valenceWithGuide, valenceWithoutGuide, envPrioWithGuide, envPrioWithoutGuide):
     """
     Assessment 3 -> Events Arousal/Valence\n
     Individual(mit/ohne Guide): Ranking Klimawandel -> Durchschnitt Arousal & Distanz von 5 Valance\n
@@ -174,11 +174,11 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
     """
     i=0
     for each in envPrioWithGuide:
-       print(f"For the player with guides envPrio is {each} there is an average Arousal of {avgArousal(arousalWithGuide[i])} and average Valance of{avgValance(valanceWithGuide[i])}")
+       print(f"For the player with guides envPrio is {each} there is an average Arousal of {avgArousal(arousalWithGuide[i])} and average Valance of{avgValance(valenceWithGuide[i])}")
        i+=1
     i=0
     for each in envPrioWithoutGuide:
-       print(f"For the player without guides envPrio is {each} there is an average Arousal of {avgArousal(arousalWithoutGuide[i])} and average Valance of {avgValance(valanceWithoutGuide[i])}")
+       print(f"For the player without guides envPrio is {each} there is an average Arousal of {avgArousal(arousalWithoutGuide[i])} and average Valance of {avgValance(valenceWithoutGuide[i])}")
        i+=1
     """Array mit [Anzahl der Spieler mit #environmental Priorty],[average arousal], [averqage valance]"""
     envPrioValArousalWithGuides = [0 for _ in range(6)], [0 for _ in range(6)], [0 for _ in range(6)]
@@ -186,7 +186,7 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
     for each in envPrioWithGuide:
         envPrioValArousalWithGuides[0][int(each-1)] += 1
         envPrioValArousalWithGuides[1][int(each-1)] += avgArousal(arousalWithGuide[i])
-        envPrioValArousalWithGuides[2][int(each-1)] += avgValance(valanceWithGuide[i])
+        envPrioValArousalWithGuides[2][int(each-1)] += avgValance(valenceWithGuide[i])
         i +=1
     for i in range(6):
         if envPrioValArousalWithGuides[0][i] != 0:
@@ -199,7 +199,7 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
     for each in envPrioWithoutGuide:
         envPrioValArousalWithoutGuides[0][int(each-1)] += 1
         envPrioValArousalWithoutGuides[1][int(each-1)] += avgArousal(arousalWithoutGuide[i])
-        envPrioValArousalWithoutGuides[2][int(each-1)] += avgValance(valanceWithoutGuide[i])
+        envPrioValArousalWithoutGuides[2][int(each-1)] += avgValance(valenceWithoutGuide[i])
         i +=1
     for i in range(6):
         if envPrioValArousalWithoutGuides[0][i] != 0:
@@ -211,18 +211,21 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
         "Arousal without guides": tuple(envPrioValArousalWithoutGuides[1])
     }
     fig, ax = plt.subplots(layout='constrained')
-    description = ("1","2","3","4","5","6")
+    description = ("1", "2", "3", "4", "5", "6")
     x = np.arange(len(description))  # the label locations
     width = 0.25  # the width of the bars
     multiplier = 0
+
     for name, values in arousalArray.items():
         offset = width * multiplier
-        rects = ax.bar(x+offset,values,width,label=name)
-        ax.bar_label(rects,padding=3)
-        multiplier +=1
+        rects = ax.bar(x + offset, values, width, label=name)
+        # Round the labels to two decimal places and adjust padding
+        ax.bar_label(rects, labels=[f'{val:.2f}' for val in values], padding=5)
+        multiplier += 1
+
     ax.set_ylabel("Average arousal score")
     ax.set_xlabel("Environmental Priority")
-    ax.set_xticks(x + width,description)
+    ax.set_xticks(x + width, description)
     ax.legend(loc='upper left', ncols=2)
     ax.set_ylim(0, 9)
     plt.show()
@@ -232,7 +235,7 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
     for each in envPrioWithGuide:
         envPrioValArousalWithGuides[0][int(each-1)] += 1
         envPrioValArousalWithGuides[1][int(each-1)] += avgArousal(arousalWithGuide[i])
-        envPrioValArousalWithGuides[2][int(each-1)] += avgValance(valanceWithGuide[i])
+        envPrioValArousalWithGuides[2][int(each-1)] += avgValance(valenceWithGuide[i])
         i +=1
     for i in range(6):
         if envPrioValArousalWithGuides[0][i] != 0:
@@ -245,7 +248,7 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
     for each in envPrioWithoutGuide:
         envPrioValArousalWithoutGuides[0][int(each-1)] += 1
         envPrioValArousalWithoutGuides[1][int(each-1)] += avgArousal(arousalWithoutGuide[i])
-        envPrioValArousalWithoutGuides[2][int(each-1)] += avgValance(valanceWithoutGuide[i])
+        envPrioValArousalWithoutGuides[2][int(each-1)] += avgValance(valenceWithoutGuide[i])
         i +=1
     for i in range(6):
         if envPrioValArousalWithoutGuides[0][i] != 0:
@@ -253,20 +256,23 @@ def interrestAffectionRatio(arousalWithGuide, arousalWithoutGuide, valanceWithGu
             envPrioValArousalWithoutGuides[2][i] = envPrioValArousalWithoutGuides[2][i]/envPrioValArousalWithoutGuides[0][i]
     print(envPrioValArousalWithoutGuides)
     valanceArray = {
-        "Valance with guides": tuple(envPrioValArousalWithGuides[2]),
-        "Valance without guides": tuple(envPrioValArousalWithoutGuides[2])
+        "Valence with guides": tuple(envPrioValArousalWithGuides[2]),
+        "Valence without guides": tuple(envPrioValArousalWithoutGuides[2])
     }
     fig, ax = plt.subplots(layout='constrained')
     description = ("1", "2", "3", "4", "5", "6")
     x = np.arange(len(description))  # the label locations
     width = 0.25  # the width of the bars
     multiplier = 0
+
     for name, values in valanceArray.items():
         offset = width * multiplier
         rects = ax.bar(x + offset, values, width, label=name)
-        ax.bar_label(rects, padding=3)
+        # Round the labels to two decimal places
+        ax.bar_label(rects, labels=[f'{val:.2f}' for val in values], padding=5)
         multiplier += 1
-    ax.set_ylabel("Average valace score")
+
+    ax.set_ylabel("Average valence score")
     ax.set_xlabel("Environmental Priority")
     ax.set_xticks(x + width, description)
     ax.legend(loc='upper left', ncols=2)
@@ -606,48 +612,49 @@ def recallEventKnowledge(datawithguide, datawithoutguide):
 
 
 
-def affectionGuideRelation(datawithguide,arousalWithGuide,valanceWithGuide):
+def affectionGuideRelation(datawithguide, arousalWithGuide, valenceWithGuide):
     """Wie sehr wirkt sich der erzielte Affekt auf die Informationserinnerung aus"""
     guideQuestions = getGuideQuestions(datawithguide)
     guidePoints = guideQuestionEval(guideQuestions)
     arousalPoints = getCertainArousal(arousalWithGuide)
-    valancePoints = getCertainValance(valanceWithGuide)
-    guideArousalValanceArray = [0 for _ in range(4)], [0 for _ in range(4)], [0 for _ in range(4)]
+    valencePoints = getCertainValance(valenceWithGuide)
+    guideArousalValenceArray = [0 for _ in range(4)], [0 for _ in range(4)], [0 for _ in range(4)]
     i=0
     arousalAvgList = []
-    valanceAvgList = []
+    valenceAvgList = []
     arousalTotalValuesList = []
-    valanceTotalValuesList = []
+    valenceTotalValuesList = []
+
 
     print(arousalPoints)
     print(shapiro(arousalPoints))
-    print(valancePoints)
-    print(shapiro(valancePoints))
+    print(valencePoints)
+    print(shapiro(valencePoints))
 
     for each in guidePoints:
-        guideArousalValanceArray[0][each] +=1
-        guideArousalValanceArray[1][each] += arousalPoints[i]
+        guideArousalValenceArray[0][each] +=1
+        guideArousalValenceArray[1][each] += arousalPoints[i]
         arousalTotalValuesList.append(arousalPoints[i])
-        guideArousalValanceArray[2][each] += valancePoints[i]
-        valanceTotalValuesList.append(valancePoints[i])
+        guideArousalValenceArray[2][each] += valencePoints[i]
+        valenceTotalValuesList.append(valencePoints[i])
         i +=1
     for i in range(4):
-        arousal = guideArousalValanceArray[1][i]
-        valance = guideArousalValanceArray[2][i]
-        player = guideArousalValanceArray[0][i]
+        arousal = guideArousalValenceArray[1][i]
+        valence = guideArousalValenceArray[2][i]
+        player = guideArousalValenceArray[0][i]
 
         if player == 0:
             arousalAvg = None
             valanceAvg = None
         else:
             arousalAvg = arousal/player
-            valanceAvg = valance/player
+            valanceAvg = valence/player
         arousalAvgList.append(arousalAvg)
-        valanceAvgList.append(valanceAvg)
+        valenceAvgList.append(valanceAvg)
         print(f"There are {player} players with {i} points for the Guide Questions\n"
               f"an average arousal value for the corresponding events of {arousalAvg}\n"
-              f"and an average valance value for the corresponding events of {valanceAvg}")
-    #print(arousalAvgList,valanceAvgList)
+              f"and an average valence value for the corresponding events of {valanceAvg}")
+    #print(arousalAvgList,valenceAvgList)
     x_labels = ["0 Answers", "1 Answers", "2 Answers", "3 Answers"]
 
     # Create the bar graph
@@ -670,15 +677,15 @@ def affectionGuideRelation(datawithguide,arousalWithGuide,valanceWithGuide):
     print('Arousal Average by Points')
     print(pearsonr([0,1,2,3],arousalAvgList))
 
-    plt.bar(x_labels, valanceAvgList)
+    plt.bar(x_labels, valenceAvgList)
 
     # Add labels and title
     plt.xlabel('Correct Answers')
     plt.ylabel('Valance Average')
-    plt.title('Valance Average by Points')
+    plt.title('Valence Average by Points')
 
     # Add exact values on top of each bar
-    for i, value in enumerate(valanceAvgList):
+    for i, value in enumerate(valenceAvgList):
         plt.text(i, value + 0.05, f'{value:.3f}', ha='center', va='bottom')
 
     # Set the Y-axis to range from 0 to 9 with increments of 1
@@ -686,8 +693,8 @@ def affectionGuideRelation(datawithguide,arousalWithGuide,valanceWithGuide):
 
     # Show the plot
     plt.show()
-    print('Arousal Valance by Points')
-    print(pearsonr([0,1,2,3],valanceAvgList))
+    print('Arousal Valence by Points')
+    print(pearsonr([0,1,2,3],valenceAvgList))
 
 def guidePopularityDecisionComparision(datawithguide, decisionsWithGuide):
     """Lassen sich Spieler mehr von Guides beeinflussen die sie toll finden"""
@@ -879,17 +886,17 @@ def presenterGender(datawithguide, datawithoutguide):
                 ha='center', va='bottom')
 
     plt.show()
-def affectionSliderComparison(arousalWithGuide,arousalWithoutGuide, valanceWithGuide,valanceWithoutGuide):
+def affectionSliderComparison(arousalWithGuide, arousalWithoutGuide, valenceWithGuide, valenceWithoutGuide):
     print(f"arousalWithGuide= {arousalWithGuide}")
-    print(f"valanceWithGuide= {valanceWithGuide}")
+    print(f"valanceWithGuide= {valenceWithGuide}")
     print(f"arousalWithoutGuide= {arousalWithoutGuide}")
-    print(f"valanceWithoutGuide= {valanceWithoutGuide}")
+    print(f"valanceWithoutGuide= {valenceWithoutGuide}")
 
     # Convert lists to numpy arrays for easier manipulation
     arousalWithGuide = np.array(arousalWithGuide)
     arousalWithoutGuide = np.array(arousalWithoutGuide)
-    valenceWithGuide = np.array(valanceWithGuide)
-    valenceWithoutGuide = np.array(valanceWithoutGuide)
+    valenceWithGuide = np.array(valenceWithGuide)
+    valenceWithoutGuide = np.array(valenceWithoutGuide)
 
     # Function to create boxplots with custom median color
     def create_boxplot_with_median_color(data_with_guide, data_without_guide, ylabel, title, median_color_with,
